@@ -1,0 +1,10 @@
+# This is the configuration used locally.
+# This should not be commited (by default it is ignored by git)
+
+[withings_api_example]
+account_withings_url = https://account.withings.com
+wbsapi_withings_url = https://wbsapi.withings.net
+client_id = <CLIENT_ID:string>
+customer_secret = <CUSTOMER_SECRET:string>
+state = <string>
+callback_uri = http://localhost:5000/get_token
