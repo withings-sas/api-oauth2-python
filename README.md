@@ -6,7 +6,9 @@ This project launches a small Flask webserver on which you have the bare bones
 to connect to withings' developer API through Oauth 2.0. The full documentation
 of the API is [here](https://developer.withings.com/)
 
-First create a new python virtual environment, activate it and install this as a python package in you shiny venv.
+You need to use Python V3.
+
+First create a new python virtual environment, activate it and install this as a python package in your shiny venv.
 ```
 virtualenv venv
 source venv/bin/activate
