@@ -27,8 +27,11 @@ def get_code():
                'mode': 'demo'  # Use demo mode, DELETE THIS FOR REAL APP
                }
 
-    r_auth = requests.get(f'{ACCOUNT_URL}/oauth2_user/authorize2',
-                          params=payload)
+    r_auth = requests\
+        .get(
+        'https://account.withings.com/oauth2_user/authorize2',
+        params=payload
+    )
 
     return redirect(r_auth.url)
 
@@ -42,27 +45,33 @@ def get_token():
     initial call
     """
     code = request.args.get('code')
-    state = request.args.get('state')
 
-    payload = {'grant_type': 'authorization_code',
+    payload = {
+               "action": "requesttoken",
+               'grant_type': 'authorization_code',
                'client_id': CLIENT_ID,
                'client_secret': CUSTOMER_SECRET,
                'code': code,
                'redirect_uri': CALLBACK_URI
                }
 
-    r_token = requests.post(f'{ACCOUNT_URL}/oauth2/token',
-                            data=payload).json()
+    r_token = requests.post(
+        'https://wbsapi.withings.net/v2/oauth2',
+        data=payload
+    ) \
+        .json()
 
-    access_token = r_token.get('access_token', '')
+    access_token = r_token.get('body', '').get('access_token', "")
 
     # GET Some info with this token
     headers = {'Authorization': 'Bearer ' + access_token}
     payload = {'action': 'getdevice'}
 
     # List devices of returned user
-    r_getdevice = requests.get(f'{WBSAPI_URL}/v2/user',
-                               headers=headers,
-                               params=payload).json()
+    r_getdevice = requests.get(
+        f'https://wbsapi.withings.net/v2/user',
+        headers=headers,
+        params=payload
+    ).json()
 
     return r_getdevice
