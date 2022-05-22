@@ -37,8 +37,8 @@ def get_code():
                'client_id': CLIENT_ID,
                'state': STATE,
                'scope': ['user.info,user.metrics,user.activity'],  # see docs for enhanced scope
-               'redirect_uri': CALLBACK_URI  # URL of this app
-               #'mode': 'demo'  # Use demo mode, DELETE THIS FOR REAL APP
+               'redirect_uri': CALLBACK_URI,  # URL of this app
+               'mode': 'demo'  # Use demo mode, DELETE THIS FOR REAL APP
                }
 
     r_auth = requests.get(f'{ACCOUNT_URL}/oauth2_user/authorize2',
@@ -112,7 +112,7 @@ def query_data():
             'redirect_uri': CALLBACK_URI
             }
         token = requests.post(f'{WBSAPI_URL}/v2/oauth2', payload).json()
-        #print("Refreshtoken Request:\n",token)
+        print("Refreshtoken Request:\n",token)
         access_token = token["body"]["access_token"]
         refresh_token = token["body"]["refresh_token"]
         current_time = datetime.now()
@@ -166,7 +166,14 @@ def query_data():
         query_weight()
     user_all_weights = [item for sublist in user_all_weights for item in sublist]
     [item.update(item['measures'][0]) for item in user_all_weights]
+    [item.pop('measures', None) for item in user_all_weights]
     user_all_weights = pd.json_normalize(user_all_weights, sep='_')
+    # Transform variables for optimal data sheet
+    # user_all_weights['date'] = user_all_weights['date'].dt.strftime('%Y-%m-%d')
+    user_all_weights['value_kg'] = user_all_weights["value"] / (10 ** abs(user_all_weights["unit"]))
+    def change_timestamp(result_date):
+        return datetime.fromtimestamp(int(result_date)).strftime("%Y-%m-%d")
+    user_all_weights['date'] = user_all_weights['date'].apply(change_timestamp)
     user_all_weights.to_excel("all_weights.xlsx")
     
     with open('test.txt', 'w') as f:
