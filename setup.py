@@ -12,11 +12,11 @@ here = os.path.abspath(os.path.dirname(__file__))
 os.chdir(here)
 
 about = {
-    "__version__": "0.1.0"
+    "__version__": "0.2.0"
 }
 
 with open(os.path.join(here, "requirements.txt")) as f:
-    self = "withings_api_example==" + about["__version__"] + "\n"
+    self = "withings_study_features==" + about["__version__"] + "\n"
     self_git_pattern = re.compile(
         r"^-e git\+git@git.*#egg=withings_api_example"
     )
@@ -29,7 +29,7 @@ with open(os.path.join(here, "requirements.txt")) as f:
 
 
 setup(
-    name="withings_api_example",
+    name="withings_study_features",
     version=about["__version__"],
     packages=find_packages("src", exclude=["tests"]),
     package_dir={"": "src"},

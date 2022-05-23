@@ -1,9 +1,0 @@
-README.md
-setup.py
-src/withings_api_example/__init__.py
-src/withings_api_example/www.py
-src/withings_api_example.egg-info/PKG-INFO
-src/withings_api_example.egg-info/SOURCES.txt
-src/withings_api_example.egg-info/dependency_links.txt
-src/withings_api_example.egg-info/requires.txt
-src/withings_api_example.egg-info/top_level.txt
